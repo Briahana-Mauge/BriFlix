@@ -1,7 +1,7 @@
-DROP DATABASE if exists tvwatchlistapp;
-CREATE DATABASE tvwatchlistapp;
+DROP DATABASE if exists briflix;
+CREATE DATABASE briflix;
 
-\c tvwatchlistapp
+\c briflix
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
