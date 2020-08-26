@@ -24,7 +24,7 @@ CREATE TABLE shows (
 CREATE TABLE show_users (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),
-    show_id INT REFERENCES shows(id)
+    show_id INT REFERENCES shows(id) 
 );
 
 CREATE TABLE comments (
@@ -66,7 +66,7 @@ VALUES ('Naruto Shippūden', 'https://image.tmdb.org/t/p/w370_and_h556_bestv2/zA
 INSERT INTO shows (title, img_url, genre_id)
 VALUES ('Greys Anatomy', 'https://image.tmdb.org/t/p/w370_and_h556_bestv2/eqgIOObafPJitt8JNh1LuO2fvqu.jpg', 2);
 INSERT INTO shows (title, img_url, genre_id)
-VALUES ('The Simpsons', 'https://image.tmdb.org/t/p/w370_and_h556_bestv2/yTZQkSsxUFJZJe67IenRM0AEklc.jpg', 3);
+VALUES ('The Simpsons', 'https://img.hulu.com/user/v3/artwork/47332072-d7fb-48b3-a5f7-ca8c6915ca27?base_image_bucket_name=image_manager&base_image=3c406fc1-f762-4d39-892a-4a4cad792c26&size=400x600&format=jpeg', 3);
 
 -- INSERT show watchers
 INSERT INTO show_users(user_id, show_id)

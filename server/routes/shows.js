@@ -22,7 +22,7 @@ const getAllShows = async (req, res, next) => {
 
 const getSingleShow = async (req, res, next) => {
     try {
-        const selectQuery = `SELECT * FROM shows WHERE id = $1`
+        const selectQuery = `SELECT * FROM shows INNER JOIN genres ON shows.genre_id = genres.id WHERE shows.id = $1`
         let show = req.params.id
         let response = await db.any(selectQuery, show)
         res.status(200).json({
@@ -68,6 +68,9 @@ const addWatcherToShow = async (req, res, next) => {
         const insertQuery = `INSERT INTO show_users(show_id, user_id) VALUES($1, $2);`
         let user = req.body.user_id
         let show = req.id
+        if (req.body.id) {
+            show = req.body.id
+        }
         let response = await db.none(insertQuery, [show, user])
         res.status(200).json({
             payload: response,
@@ -75,6 +78,7 @@ const addWatcherToShow = async (req, res, next) => {
             error: false
         })
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             payload: null,
             message: `failure adding show for one user`,
@@ -104,7 +108,7 @@ const getAllShowsOneGenre = async (req, res, next) => {
 
 const getAllShowsOneUser = async (req, res, next) => {
     try {
-        const selectQuery = `SELECT shows.id, users.username, shows.title, shows.img_url, genres.genre_name FROM shows INNER JOIN show_users ON show_users.show_id = shows.id INNER JOIN users ON users.id = show_users.user_id  INNER JOIN genres ON genres.id = shows.genre_id WHERE users.id = $1;`
+        const selectQuery = `SELECT DISTINCT shows.id, users.username, shows.title, shows.img_url, genres.genre_name FROM shows INNER JOIN show_users ON show_users.show_id = shows.id INNER JOIN users ON users.id = show_users.user_id  INNER JOIN genres ON genres.id = shows.genre_id WHERE users.id = $1;`
         let user = req.params.user_id
         let response = await db.any(selectQuery, user)
         res.status(200).json({
@@ -124,7 +128,8 @@ const getAllShowsOneUser = async (req, res, next) => {
 
 router.get('/', getAllShows)
 router.get('/:id', getSingleShow)
-router.post('/', createNewShow, addWatcherToShow)
+router.post('/create', createNewShow, addWatcherToShow)
+router.post('/add', addWatcherToShow)
 router.get('/genre/:genre_id', getAllShowsOneGenre)
 router.get('/user/:user_id', getAllShowsOneUser)
 module.exports = router;
