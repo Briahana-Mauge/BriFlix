@@ -33,7 +33,7 @@ class NewShow extends React.Component {
         try {
             const { user_id } = this.props
             const { title, genre_id, url } = this.state
-            await axios.post(`http://localhost:3194/shows/`, { title: title, genre_id: genre_id, img_url: url, user_id: user_id })
+            await axios.post(`http://localhost:3194/shows/create`, { title: title, genre_id: genre_id, img_url: url, user_id: user_id })
 
         }
         catch (err) {

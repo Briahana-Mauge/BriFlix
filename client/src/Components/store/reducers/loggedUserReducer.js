@@ -1,8 +1,9 @@
-import { RECEIVE_USER } from '../actionTypes';
+import { RECEIVE_USER, RECEIVE_SUBMIT } from '../actionTypes';
 
 const initialState = {
   loggedUser: '',
-  
+  submitted: false
+
 }
 
 const loggedUserReducer = (state = initialState, action) => {
@@ -11,16 +12,18 @@ const loggedUserReducer = (state = initialState, action) => {
 
   // Deicide how the state is to be modified
   // depending on the action type
-    switch (action.type) {
-      case RECEIVE_USER:
-        newState =  action.payload;
-        break;
+  switch (action.type) {
+    case RECEIVE_USER:
+      newState.loggedUser = action.payload;
+      break;
+    case RECEIVE_SUBMIT:
+      newState.submitted = action.payload;
+      break;
+    default:
+      break;
 
-      default:
-        break;
+  }
 
-    }
-  
   return newState;
 
 }

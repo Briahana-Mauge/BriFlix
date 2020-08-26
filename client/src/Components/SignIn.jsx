@@ -1,11 +1,10 @@
 import React from 'react';
-// import { connect } from 'react-redux';
-// import { RECEIVE_USER } from './store/actionTypes'
+
 import axios from 'axios';
 
 
 class SignIn extends React.Component {
-    constructor(props) {
+    constructor() {
         super()
         this.state = {
             users: [],
@@ -34,41 +33,27 @@ class SignIn extends React.Component {
     }
 
     render() {
-        const { users} = this.state;
-        const {submitted, user_id, handleSubmit, handleInput, name } = this.props;
+        const { users } = this.state;
+        const { submitted, user_id, handleSubmit, handleInput, name, image } = this.props;
 
         return (
             <>
-                <h1>Welcome to the TV Watchlist App </h1>
-                <h4>Who's watching?</h4>
-                <form onSubmit={handleSubmit}>
-                    <select onChange={handleInput} name='user_id'>
-                        {users}
-                    </select>
-                    <input type='submit' value='Log In' />
-                </form>
-                {submitted && user_id ? <p>Welcome <strong>{name}</strong></p> :
-                    null}
+                <h1>Welcome to BriFlix </h1>
+
+                {submitted && user_id ? <><p>Welcome <strong>{name}</strong></p>
+                    <img src={image} alt={`${name}'s profile avatar`} />
+
+                </> : <><h4>Who's watching?</h4>
+                        <form onSubmit={handleSubmit}>
+                            <select onChange={handleInput} name='user_id'>
+                                {users}
+                            </select>
+                            <input type='submit' value='Log In' />
+                        </form>
+                    </>}
             </>
         )
     }
 }
-// const mapStateToProps = (state) => {
-//     return {
-//         loggedUser: state.receiveUser
-//     }
-// }
-
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         receiveUser: (user) => {
-//             dispatch({
-//                 type: RECEIVE_USER,
-//                 payload: user
-//             })
-//         }
-//     }
-// }
 
 export default SignIn;
-// connect(mapStateToProps, mapDispatchToProps)(SignIn);

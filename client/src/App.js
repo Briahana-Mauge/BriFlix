@@ -9,7 +9,7 @@ import './App.css';
 import { Switch, Route } from 'react-router-dom'
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { RECEIVE_USER } from './Components/store/actionTypes'
+import { RECEIVE_USER, RECEIVE_SUBMIT } from './Components/store/actionTypes'
 
 class App extends React.Component {
   constructor(props) {
@@ -17,27 +17,30 @@ class App extends React.Component {
     this.state = {
       user_id: '',
       name: '',
-      submitted: ''
+      submitted: false, 
+      show_id: ''
     }
+    console.log(props)
   }
-  handleInput = (event) => {
+  handleInput = async (event) => {
     const { name, value } = event.target
+    console.log(name, value)
     this.setState({
       [name]: value,
       submitted: false
     })
   }
-  getUser = async (props) => {
+  getUser = async () => {
     const { user_id } = this.state
-    // console.log('state: user_id', user_id)
     try {
       if (user_id) {
         let single_user = await axios.get(`http://localhost:3194/users/${user_id}`)
-        // console.log('results', single_user)
+        console.log('results', single_user)
         let user = single_user.data.payload
         this.setState({
           user_id: user.id,
-          name: user.username
+          name: user.username,
+          image: user.avatar_url
         })
       }
 
@@ -45,29 +48,33 @@ class App extends React.Component {
       console.log('error', err)
     }
   }
+
   handleSubmit = async (event) => {
+    const { submitted, user_id } = this.state
     event.preventDefault();
+
     this.setState({
-      submitted: true
+      submitted: !submitted,//true
+      user_id: ''
     })
-    await this.props.receiveUser(this.state.user_id);
     this.getUser();
+    await this.props.receiveUser(user_id);
+    await this.props.receiveSubmit(!submitted);
   }
 
   render() {
-    const { user_id, title, url, genre_id, name, submitted } = this.state
+    const { user_id, title, url, genre_id, name, submitted, image, show_id } = this.state
     return (
       <div className="App">
-        < NavBar />
+        < NavBar submitted={submitted} />
         <Switch>
           <Route exact path='/' render={() => <SignIn user_id={user_id} handleInput={this.handleInput} handleSubmit={this.handleSubmit} submitted
-           = {submitted} name = {name}/>} />
+            ={this.props.loggedUser.submitted} name={name} image = {image} />} />
           <Route path='/about' render={() => <About user_id={user_id} />} />
           <Route path='/users' render={() => <Users user_id={user_id} name={name} />} />
-          <Route path='/addShow' render={() => <NewShow user_id={user_id} title={title} url={url} genre_id={genre_id} />} />
-          <Route path='/shows' render={() => <Shows user_id={user_id} name={name} handleInput={this.handleInput} handleSubmit={this.handleSubmit} path={'/shows'} />} />
-        {/* <Route path = '/shows' component = {Shows}/> */}
-          </Switch>
+          <Route path='/newShow' render={() => <NewShow user_id={user_id} title={title} url={url} genre_id={genre_id} />} />
+          <Route path='/shows' render={() => <Shows user_id={user_id} name={name} handleInput={this.handleInput} handleSubmit={this.handleSubmit} show_id = {show_id} path={'/shows'} />} />
+        </Switch>
       </div>
     );
   }
@@ -86,6 +93,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: RECEIVE_USER,
         payload: user
+      })
+    },
+    receiveSubmit: (submit) => {
+      dispatch({
+        type: RECEIVE_SUBMIT,
+        payload: submit
       })
     }
   }

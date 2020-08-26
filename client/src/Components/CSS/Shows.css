@@ -1,0 +1,20 @@
+.all-Shows{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    justify-content: space-evenly;
+    row-gap: 10px;
+    
+}
+.poster{
+    width:300px;
+    height: 450px;
+}
+.show{
+    width: 300px;
+    background-color: white;
+}
+p, .all-Shows a{
+    color: black;
+    text-decoration: none;
+}

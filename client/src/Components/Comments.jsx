@@ -5,8 +5,8 @@ const Comments = (props) => {
     let items = [];
     for (let i = 0; i < props.comments.length; i++) {
         items.push(
-            <li key={props.comments[i].id}>
-                <img className='avatar' src={props.comments[i].avatar_url} alt={`${props.comments[i].username}'s avatar`} />
+            <li key={props.comments[i].id} className = 'list'>
+                <img className='avatar commenter' src={props.comments[i].avatar_url} alt={`${props.comments[i].username}'s avatar`} />
                 <strong>{props.comments[i].username}</strong>: {props.comments[i].comment_body}
             </li>
         )
