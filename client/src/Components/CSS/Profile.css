@@ -1,11 +1,11 @@
 .profile-page{
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 40px;
-    align-items: space-between;
-    
-    
-}
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 40px;
+        justify-content: space-evenly;
+        row-gap: 10px;
+        
+    }
 .poster{
     width:300px;
     height: 450px;

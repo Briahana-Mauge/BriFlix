@@ -94,10 +94,10 @@ VALUES(4,5);
 
 
 -- INSERT COMMENTS
-INSERT INTO comments (comment_body, user_id, show_id)
-VALUES ('BEST SHOW EVER!!', 1, 1);
-INSERT INTO comments (comment_body, user_id, show_id)
-VALUES ('Of course you would think so Jon', 2, 1);
+-- INSERT INTO comments (comment_body, user_id, show_id)
+-- VALUES ('BEST SHOW EVER!!', 1, 1);
+-- INSERT INTO comments (comment_body, user_id, show_id)
+-- VALUES ('Of course you would think so Jon', 2, 1);
 
 
 

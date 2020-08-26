@@ -27,7 +27,8 @@ class App extends React.Component {
     console.log(name, value)
     this.setState({
       [name]: value,
-      submitted: false
+      submitted: false,
+      
     })
   }
   getUser = async () => {
@@ -38,12 +39,10 @@ class App extends React.Component {
         console.log('results', single_user)
         let user = single_user.data.payload
         this.setState({
-          user_id: user.id,
           name: user.username,
           image: user.avatar_url
         })
       }
-
     } catch (err) {
       console.log('error', err)
     }
@@ -55,7 +54,7 @@ class App extends React.Component {
 
     this.setState({
       submitted: !submitted,//true
-      user_id: ''
+      user_id: this.props.loggedUser.loggedUser
     })
     this.getUser();
     await this.props.receiveUser(user_id);
@@ -68,12 +67,12 @@ class App extends React.Component {
       <div className="App">
         < NavBar submitted={submitted} />
         <Switch>
-          <Route exact path='/' render={() => <SignIn user_id={user_id} handleInput={this.handleInput} handleSubmit={this.handleSubmit} submitted
+          <Route exact path='/' render={() => <SignIn user_id={this.props.loggedUser.loggedUser} handleInput={this.handleInput} handleSubmit={this.handleSubmit} submitted
             ={this.props.loggedUser.submitted} name={name} image = {image} />} />
           <Route path='/about' render={() => <About user_id={user_id} />} />
           <Route path='/users' render={() => <Users user_id={user_id} name={name} />} />
           <Route path='/newShow' render={() => <NewShow user_id={user_id} title={title} url={url} genre_id={genre_id} />} />
-          <Route path='/shows' render={() => <Shows user_id={user_id} name={name} handleInput={this.handleInput} handleSubmit={this.handleSubmit} show_id = {show_id} path={'/shows'} />} />
+          <Route path='/shows' render={() => <Shows user_id={this.props.loggedUser.loggedUser} name={name} handleInput={this.handleInput} handleSubmit={this.handleSubmit} show_id = {show_id} path={'/shows'} />} />
         </Switch>
       </div>
     );

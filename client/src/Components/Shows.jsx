@@ -14,7 +14,6 @@ class Shows extends React.Component {
             message: '',
             // show_id:''
         }
-        // console.log()
 
     }
 
@@ -45,7 +44,6 @@ class Shows extends React.Component {
 
     addShowToQueue = async (event) => {
         event.preventDefault();
-        console.log('ja')
         try {
             const { show_id } = this.props
             const { user } = this.state
@@ -54,7 +52,7 @@ class Shows extends React.Component {
                 this.getAllShows();
             } else {
                 this.setState({
-                    message: 'You must bee logged in to add a show to your queue'
+                    message: 'You must be logged in to add a show to your queue'
                 })
             }
         }
